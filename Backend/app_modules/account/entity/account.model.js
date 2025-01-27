@@ -1,11 +1,10 @@
 import mongoose from "mongoose";
-import { generateHexId } from "../../utils/setId.js";
 
 const accountSchema = new mongoose.Schema(
   {
     _id: {
       type: String,
-      default: generateHexId("account"),
+      required: true,
     },
 
     username: {

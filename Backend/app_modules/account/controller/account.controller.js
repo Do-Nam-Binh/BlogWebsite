@@ -1,6 +1,7 @@
 import { generateToken } from "../../utils/generateToken.js";
 import { hashPassword, validatePassword } from "../../utils/hashPassword.js";
 import Account from "../entity/account.model.js";
+import { generateHexId } from "../../utils/setId.js";
 
 export const signup = async (req, res) => {
   try {
@@ -18,6 +19,7 @@ export const signup = async (req, res) => {
     const hashedPassword = await hashPassword(password);
 
     const newAccount = new Account({
+      _id: generateHexId("account"),
       username: username,
       password: hashedPassword,
       type: "USER",
