@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { generateHexId } from "../../utils/setId";
+import { generateHexId } from "../../utils/setId.js";
 
 const accountSchema = new mongoose.Schema(
   {
