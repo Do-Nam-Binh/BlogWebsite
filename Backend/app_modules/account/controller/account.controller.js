@@ -6,7 +6,7 @@ export const signup = async (req, res) => {
   try {
     const { username, password } = req.body;
 
-    if (!username | !password) {
+    if (!username || !password) {
       return res.status(400).json({ error: "All fields are required" });
     }
 
@@ -21,14 +21,15 @@ export const signup = async (req, res) => {
       username: username,
       password: hashedPassword,
       type: "USER",
+      profileImg: null,
     });
     await newAccount.save();
 
     res.status(201).json({
       id: newAccount.id,
-      username: username,
-      type: type,
-      profileImg: profileImg,
+      username: newAccount.username,
+      type: newAccount.type,
+      profileImg: newAccount.profileImg,
     });
   } catch (error) {
     console.error("Error in signup controller", error.message);
