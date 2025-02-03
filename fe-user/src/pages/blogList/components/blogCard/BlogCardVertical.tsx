@@ -6,7 +6,7 @@ interface BlogCardProps {
   tags: string[];
 }
 
-const BlogCard: React.FC<BlogCardProps> = ({
+const BlogCardVertical: React.FC<BlogCardProps> = ({
   date,
   title,
   summary,
@@ -15,12 +15,12 @@ const BlogCard: React.FC<BlogCardProps> = ({
 }) => {
   return (
     <div className="flex justify-center items-center h-full flex-col">
-      <div className="relative flex flex-col text-gray-700 bg-white bg-clip-border rounded-xl w-120 p-5 w-full">
-        <div className="block mb-4 mx-auto border-b border-slate-300 pb-2 w-full">
+      <div className="relative flex flex-col text-gray-700 bg-white bg-clip-border rounded-xl w-120 w-full h-full justify-between">
+        <div className="block border-slate-300 w-full h-1/2">
           <img
-            src="/vite.svg"
+            src="/stockimagelong.png"
             alt=""
-            className="w-full h-40 object-cover rounded-lg mb-4"
+            className="w-full h-full object-cover rounded-lg mb-4"
           />
         </div>
         <div className="text-gray-500 text-sm">{date.toUTCString()}</div>
@@ -39,7 +39,7 @@ const BlogCard: React.FC<BlogCardProps> = ({
             />
           </button>
         </div>
-        <p className="block font-sans text-sm antialiased font-normal leading-normal text-gray-700 opacity-75 flex-grow">
+        <p className="block font-sans text-sm antialiased font-normal leading-normal text-gray-700 opacity-75 h-30 overflow-hidden text-ellipsis">
           {summary}
         </p>
         <div className="mt-3">
@@ -71,4 +71,4 @@ const BlogCard: React.FC<BlogCardProps> = ({
   );
 };
 
-export default BlogCard;
+export default BlogCardVertical;

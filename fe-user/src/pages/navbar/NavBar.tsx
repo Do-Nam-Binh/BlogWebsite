@@ -1,3 +1,5 @@
+import { Link, Outlet } from "react-router-dom";
+
 const NavBar = () => {
   return (
     <>
@@ -16,12 +18,12 @@ const NavBar = () => {
                   </a>
                 </li>
                 <li className="max-lg:border-b max-lg:py-3">
-                  <a
-                    href=""
+                  <Link
+                    to="/"
                     className="hover:text-[#007bff] text-[#007bff] block font-bold text-[15px]"
                   >
                     Home
-                  </a>
+                  </Link>
                 </li>
                 <li className="max-lg:border-b max-lg:py-3">
                   <a
@@ -46,15 +48,16 @@ const NavBar = () => {
           <div className="border-l border-[#333] h-6 max-lg:hidden"></div>
 
           <div className="flex items-center ml-auto space-x-6">
-            <a
-              href=""
+            <Link
+              to="/login"
               className="hover:text-[#007bff] text-gray-600 block font-bold text-[15px]"
             >
               Log in
-            </a>
+            </Link>
           </div>
         </div>
       </header>
+      <Outlet />
     </>
   );
 };
