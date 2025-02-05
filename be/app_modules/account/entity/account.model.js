@@ -7,6 +7,12 @@ const accountSchema = new mongoose.Schema(
       required: true,
     },
 
+    googleId: {
+      type: String, // Store Google ID if the user logs in with Google
+      unique: true,
+      sparse: true, // Allows unique constraint but permits null values
+    },
+
     email: {
       type: String,
       required: true,
@@ -17,12 +23,13 @@ const accountSchema = new mongoose.Schema(
     username: {
       type: String,
       required: true,
-      unique: true,
     },
 
     password: {
       type: String,
-      required: true,
+      required: function () {
+        return !this.googleId; // Password is required only if Google ID is absent
+      },
     },
 
     type: {

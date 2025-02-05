@@ -13,22 +13,22 @@ const accountValidate = Joi.object({
   password: Joi.string().required(),
 });
 
-export const signupService = async (req, res) => {
-  const { error } = accountValidate.validate(req.body);
+export const signupService = async (body) => {
+  const { error } = accountValidate.validate(body);
   if (error) {
-    return res.status(400).json({ error: error.details[0].message });
+    throw error;
   }
 
-  const { email, username, password } = req.body;
+  const { email, username, password } = body;
 
   const emailExist = await Account.findOne({ email });
   if (emailExist) {
-    return res.status(400).json({ error: "Email already taken!" });
+    throw new Error("Email already taken");
   }
 
   const userExist = await Account.findOne({ username });
   if (userExist) {
-    return res.status(400).json({ error: "Username already taken!" });
+    throw new Error("Username already taken");
   }
 
   const hashedPassword = await hashPassword(password);
@@ -43,33 +43,25 @@ export const signupService = async (req, res) => {
   });
   await newAccount.save();
 
-  return res.status(201).json({
-    id: newAccount.id,
-    email: newAccount.email,
-    username: newAccount.username,
-    type: newAccount.type,
-    profileImg: newAccount.profileImg,
-  });
+  return newAccount;
 };
 
-export const loginService = async (req, res) => {
-  const { identifier, password } = req.body; // Identifier can be email or username
+export const loginService = async (body) => {
+  const { email, password } = body; // Identifier can be email or username
 
-  if (!identifier || !password) {
-    return res.status(400).json({ message: "Both fields are required." });
+  if (!email || !password) {
+    throw new Error("Both fields are required.");
   }
 
-  const user = await Account.findOne({
-    $or: [{ email: identifier }, { username: identifier }],
-  });
+  const user = await Account.findOne({ email: email });
 
   if (!user) {
-    return res.status(401).json({ message: "Invalid credentials." });
+    throw new Error("Invalid credentials");
   }
 
   const correctPassword = await validatePassword(password, user.password);
   if (!correctPassword) {
-    return res.status(400).json({ error: "Invalid username or password!" });
+    throw new Error("Invalid username or password!");
   }
 
   const accessToken = generateToken(
@@ -84,14 +76,39 @@ export const loginService = async (req, res) => {
     process.env.REFRESH_TOKEN_EXPIRATION
   );
 
-  res.cookie("refreshToken", refreshToken, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "Strict",
-    path: "/api/auth/refresh-token",
-  });
+  return { accessToken, refreshToken };
+};
 
-  return res.status(200).json({ accessToken });
+export const googleLoginService = async (body) => {
+  const { googleId, email, username, profileImg } = body;
+
+  let user = await Account.findOne({ googleId });
+
+  if (!user) {
+    user = new Account({
+      _id: googleId,
+      googleId,
+      email,
+      username,
+      profileImg: profileImg || null,
+    });
+
+    await user.save();
+  }
+
+  const accessToken = generateToken(
+    user,
+    process.env.ACCESS_TOKEN_SECRET,
+    process.env.ACCESS_TOKEN_EXPIRATION
+  );
+
+  const refreshToken = generateToken(
+    user,
+    process.env.REFRESH_TOKEN_SECRET,
+    process.env.REFRESH_TOKEN_EXPIRATION
+  );
+
+  return { accessToken, refreshToken };
 };
 
 export const refreshAccessTokenService = async (res, req) => {
