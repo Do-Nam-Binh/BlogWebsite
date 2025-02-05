@@ -15,11 +15,11 @@ import express from "express";
 
 const router = express.Router();
 
-router.post("/all", getAllPost);
-router.post("/get/:id", getPostById);
+router.get("/all", getAllPost);
+router.get("/get/:id", getPostById);
 router.post("/create", createPost);
 router.post("/edit/:id", editPost);
-router.post("/delete/:id", deletePost);
+router.delete("/delete/:id", deletePost);
 router.post("/hide/:id", hidePost);
 router.post("/publish/:id", publishPost);
 router.post("/like/:id", likePost);
