@@ -1,4 +1,16 @@
+import { SignupApi } from "./SignupApi";
+
 const Signup = () => {
+  const {
+    email,
+    setEmail,
+    username,
+    setUsername,
+    password,
+    setPassword,
+    error,
+    handleSubmit,
+  } = SignupApi();
   return (
     <>
       <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
@@ -7,13 +19,17 @@ const Signup = () => {
             Sign In
           </h2>
 
-          <form className="space-y-4">
+          <form className="space-y-4" onSubmit={handleSubmit}>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Email
               </label>
               <input
                 type="email"
+                value={email}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                }}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all"
                 placeholder="your@email.com"
               />
@@ -25,6 +41,10 @@ const Signup = () => {
               </label>
               <input
                 type="username"
+                value={username}
+                onChange={(e) => {
+                  setUsername(e.target.value);
+                }}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all"
                 placeholder="John Doe"
               />
@@ -36,6 +56,10 @@ const Signup = () => {
               </label>
               <input
                 type="password"
+                value={password}
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                }}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all"
                 placeholder="••••••••"
               />
@@ -55,6 +79,8 @@ const Signup = () => {
               Login
             </a>
           </div>
+
+          {error && <p className="text-red-500 text-xs mt-2">{error}</p>}
         </div>
       </div>
     </>
