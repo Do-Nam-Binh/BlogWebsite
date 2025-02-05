@@ -1,13 +1,17 @@
 import mongoose from "mongoose";
 import { generateHexId } from "../../utils/setId";
-
-const allowedReactions = ["👍", "❤️", "😂", "😮", "😢", "👎"];
+import ReactionEmoji from "../../utils/types/enums/reactions";
 
 const postSchema = mongoose.Schema(
   {
     _id: {
       type: String,
       default: generateHexId("post"), // Auto-generate a unique string ID
+    },
+
+    summary: {
+      type: String,
+      required: true,
     },
 
     content: {
@@ -47,7 +51,7 @@ const postSchema = mongoose.Schema(
       validate: {
         validator: function (reactions) {
           return Object.keys(reactions).every((emoji) =>
-            allowedReactions.includes(emoji)
+            Object.values(ReactionEmoji).includes(emoji)
           );
         },
         message: (props) => `${props.value} contains invalid emojis!`,
