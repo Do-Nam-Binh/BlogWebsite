@@ -1,4 +1,14 @@
+import { LoginApi } from "./LoginApi";
+
 const Login = () => {
+  const {
+    identifier,
+    setIdentifier,
+    password,
+    setPassword,
+    error,
+    handleSubmit,
+  } = LoginApi();
   return (
     <>
       <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
@@ -7,15 +17,18 @@ const Login = () => {
             Sign In
           </h2>
 
-          <form className="space-y-4">
+          <form className="space-y-4" onSubmit={handleSubmit}>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                Email
+                Username or email
               </label>
               <input
-                type="email"
+                type="identifier"
+                value={identifier}
+                onChange={(e) => setIdentifier(e.target.value)}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all"
                 placeholder="your@email.com"
+                required
               />
             </div>
 
@@ -25,8 +38,13 @@ const Login = () => {
               </label>
               <input
                 type="password"
+                value={password}
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                }}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all"
                 placeholder="••••••••"
+                required
               />
             </div>
 
@@ -60,6 +78,8 @@ const Login = () => {
               Sign up
             </a>
           </div>
+
+          {error && <p className="text-red-500 text-xs mt-2">{error}</p>}
         </div>
       </div>
     </>
