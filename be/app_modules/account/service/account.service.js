@@ -3,15 +3,23 @@ import Account from "../entity/account.model.js";
 import { generateHexId } from "../../utils/setId.js";
 import { generateToken } from "../../utils/generateToken.js";
 import dotenv from "dotenv";
+import Joi from "joi";
 
 dotenv.config();
 
-export const signupService = async (req, res) => {
-  const { email, username, password } = req.body;
+const accountValidate = Joi.object({
+  email: Joi.string().email().required(),
+  username: Joi.string().required(),
+  password: Joi.string().required(),
+});
 
-  if (!email || !username || !password) {
-    return res.status(400).json({ error: "All fields are required" });
+export const signupService = async (req, res) => {
+  const { error } = accountValidate.validate(req.body);
+  if (error) {
+    return res.status(400).json({ error: error.details[0].message });
   }
+
+  const { email, username, password } = req.body;
 
   const emailExist = await Account.findOne({ email });
   if (emailExist) {
