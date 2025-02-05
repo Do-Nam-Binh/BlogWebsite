@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
-import { generateHexId } from "../../utils/setId";
-import ReactionEmoji from "../../utils/types/enums/reactions";
+import { generateHexId } from "../../utils/setId.js";
+import ReactionEmoji from "../../utils/types/enums/reactions.js";
 
 const postSchema = mongoose.Schema(
   {

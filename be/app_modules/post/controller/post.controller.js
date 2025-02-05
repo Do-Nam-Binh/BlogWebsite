@@ -8,7 +8,7 @@ import {
   likePostService,
   publishPostService,
   removeReactionService,
-} from "../service/post.service";
+} from "../service/post.service.js";
 
 export const createPost = async (req, res) => {
   try {

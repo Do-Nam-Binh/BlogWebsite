@@ -10,7 +10,7 @@ import {
   dislikePost,
   addReaction,
   removeReaction,
-} from "../controller/post.controller";
+} from "../controller/post.controller.js";
 import express from "express";
 
 const router = express.Router();

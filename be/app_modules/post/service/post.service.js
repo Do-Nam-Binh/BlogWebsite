@@ -1,7 +1,6 @@
-import Account from "../../account/entity/account.model";
-import { generateHexId } from "../../utils/setId";
-import ReactionEmoji from "../../utils/types/enums/reactions";
-import Post from "../entity/post.model";
+import { generateHexId } from "../../utils/setId.js";
+import ReactionEmoji from "../../utils/types/enums/reactions.js";
+import Post from "../entity/post.model.js";
 import Joi from "joi";
 
 const postCreateValidate = Joi.object({
@@ -60,7 +59,7 @@ export const editPostService = async (body) => {
     if (error) {
       throw error;
     }
-    const post = await Account.findById(id);
+    const post = await Post.findById(id);
 
     if (!post) {
       throw new Error("Post not found");
@@ -88,7 +87,7 @@ export const editPostService = async (body) => {
 
 export const getAllPostService = async () => {
   try {
-    const posts = await Account.find();
+    const posts = await Post.find();
     return posts;
   } catch (error) {
     throw error;
@@ -97,7 +96,7 @@ export const getAllPostService = async () => {
 
 export const getPostByIdService = async (id) => {
   try {
-    const post = await Account.findById(id);
+    const post = await Post.findById(id);
     if (!post) {
       throw new Error("Post not found");
     }
@@ -109,7 +108,7 @@ export const getPostByIdService = async (id) => {
 
 export const deletePostService = async (id) => {
   try {
-    const post = await Account.findByIdAndDelete(id);
+    const post = await Post.findByIdAndDelete(id);
     if (!post) {
       throw new Error("Post not found");
     }
@@ -122,7 +121,7 @@ export const deletePostService = async (id) => {
 
 export const hidePostService = async (id) => {
   try {
-    const post = await Account.findByIdAndUpdate(
+    const post = await Post.findByIdAndUpdate(
       id,
       { visibility: false },
       { new: true }
@@ -140,7 +139,7 @@ export const hidePostService = async (id) => {
 
 export const publishPostService = async (id) => {
   try {
-    const post = await Account.findByIdAndUpdate(
+    const post = await Post.findByIdAndUpdate(
       id,
       { visibility: true },
       { new: true }
@@ -158,7 +157,7 @@ export const publishPostService = async (id) => {
 
 export const likePostService = async (id) => {
   try {
-    const post = await Account.findById(id);
+    const post = await Post.findById(id);
 
     if (!post) {
       throw new Error("Post not found");
@@ -175,7 +174,7 @@ export const likePostService = async (id) => {
 
 export const dislikePostService = async (id) => {
   try {
-    const post = await Account.findById(id);
+    const post = await Post.findById(id);
 
     if (!post) {
       throw new Error("Post not found");
@@ -198,7 +197,7 @@ export const addReactionService = async (id, emoji) => {
     if (!Object.values(ReactionEmoji).includes(emoji)) {
       throw new Error("Invalid emoji reaction");
     }
-    const post = await Account.findById(id);
+    const post = await Post.findById(id);
 
     if (!post) {
       throw new Error("Post not found");
@@ -219,7 +218,7 @@ export const removeReactionService = async (id, emoji) => {
     if (!Object.values(ReactionEmoji).includes(emoji)) {
       throw new Error("Invalid emoji reaction");
     }
-    const post = await Account.findById(id);
+    const post = await Post.findById(id);
 
     if (!post) {
       throw new Error("Post not found");
