@@ -6,6 +6,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import NavBar from "./pages/navbar/NavBar";
 import Login from "./pages/login/Login";
 import Signup from "./pages/signup/Signup";
+import CreateBlogPost from "./pages/createBlogPost/createBlogPost";
 
 function App() {
   const [posts] = useState<Post[]>([
@@ -71,6 +72,7 @@ function App() {
       postedDate: new Date(),
     },
   ]);
+
   return (
     <BrowserRouter>
       <Routes>
@@ -85,6 +87,7 @@ function App() {
           <Route index element={<BlogList postList={posts} />} />
           <Route path="login" element={<Login />} />
           <Route path="signup" element={<Signup />} />
+          <Route path="blog/create" element={<CreateBlogPost />} />
         </Route>
       </Routes>
     </BrowserRouter>

@@ -1,1 +1,7 @@
 @import "tailwindcss";
+
+.ql-editor {
+  min-height: 600px;
+  max-height: 1200px;
+  overflow: auto;
+}
