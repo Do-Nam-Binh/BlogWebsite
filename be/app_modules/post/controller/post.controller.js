@@ -2,6 +2,7 @@ import {
   addReactionService,
   createPostService,
   deletePostService,
+  dislikePostService,
   editPostService,
   getAllPostService,
   getPostByIdService,
@@ -88,7 +89,7 @@ export const likePost = async (req, res) => {
 
 export const dislikePost = async (req, res) => {
   try {
-    const post = await likePostService(req.params.id);
+    const post = await dislikePostService(req.params.id);
     res.status(200).json({ message: "Post disliked", post });
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -97,7 +98,7 @@ export const dislikePost = async (req, res) => {
 
 export const addReaction = async (req, res) => {
   try {
-    const post = await addReactionService(req.params.id, req.body.reaction);
+    const post = await addReactionService(req.params.id, req.body);
     res.status(200).json({
       message: `Post reacted with ${req.body.reaction}`,
       post,
@@ -109,7 +110,7 @@ export const addReaction = async (req, res) => {
 
 export const removeReaction = async (req, res) => {
   try {
-    const post = await removeReactionService(req.params.id, req.body.reaction);
+    const post = await removeReactionService(req.params.id, req.body);
     res
       .status(200)
       .json({ message: `Post reaction removed ${req.body.reaction}`, post });

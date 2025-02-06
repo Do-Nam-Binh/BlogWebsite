@@ -21,11 +21,11 @@ router.get("/get/:id", getPostById);
 router.post("/create", createPost);
 router.put("/edit/:id", editPost);
 router.delete("/delete/:id", deletePost);
-router.post("/hide/:id", hidePost);
-router.post("/publish/:id", publishPost);
-router.post("/like/:id", likePost);
-router.post("/dislike/:id", dislikePost);
-router.post("/addReact/:id", addReaction);
-router.post("/removeReact/:id", removeReaction);
+router.put("/hide/:id", hidePost);
+router.put("/publish/:id", publishPost);
+router.put("/like/:id", likePost);
+router.put("/dislike/:id", dislikePost);
+router.put("/addReact/:id", addReaction);
+router.put("/removeReact/:id", removeReaction);
 
 export default router;

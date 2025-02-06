@@ -196,9 +196,10 @@ export const dislikePostService = async (id) => {
   }
 };
 
-export const addReactionService = async (id, emoji) => {
+export const addReactionService = async (id, body) => {
   try {
-    if (!Object.values(ReactionEmoji).includes(emoji)) {
+    const { reaction } = body;
+    if (!Object.keys(ReactionEmoji).includes(reaction)) {
       throw new Error("Invalid emoji reaction");
     }
     const post = await Post.findById(id);
@@ -207,7 +208,10 @@ export const addReactionService = async (id, emoji) => {
       throw new Error("Post not found");
     }
 
-    post.reactions.set(emoji, (post.reactions.get(emoji) || 0) + 1);
+    post.reactions.set(
+      ReactionEmoji[reaction],
+      (post.reactions.get(ReactionEmoji[reaction]) || 0) + 1
+    );
 
     await post.save(); // Save the post with the updated reactions
 
@@ -217,20 +221,22 @@ export const addReactionService = async (id, emoji) => {
   }
 };
 
-export const removeReactionService = async (id, emoji) => {
+export const removeReactionService = async (id, body) => {
   try {
-    if (!Object.values(ReactionEmoji).includes(emoji)) {
+    const { reaction } = body;
+    if (!Object.keys(ReactionEmoji).includes(reaction)) {
       throw new Error("Invalid emoji reaction");
     }
+
     const post = await Post.findById(id);
 
     if (!post) {
       throw new Error("Post not found");
     }
 
-    const currentCount = post.reactions.get(emoji) || 0;
+    const currentCount = post.reactions.get(ReactionEmoji[reaction]) || 0;
     if (currentCount > 0) {
-      post.reactions.set(emoji, currentCount - 1);
+      post.reactions.set(ReactionEmoji[reaction], currentCount - 1);
     }
 
     await post.save();
