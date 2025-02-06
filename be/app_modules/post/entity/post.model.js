@@ -9,6 +9,11 @@ const postSchema = mongoose.Schema(
       default: generateHexId("post"), // Auto-generate a unique string ID
     },
 
+    title: {
+      type: String,
+      required: true,
+    },
+
     summary: {
       type: String,
       required: true,
@@ -42,15 +47,11 @@ const postSchema = mongoose.Schema(
 
     reactions: {
       type: Map,
-      of: {
-        type: Number,
-        min: 0, // Ensures reaction counts are non-negative
-        default: 0,
-      },
+      of: Number,
       default: {},
       validate: {
         validator: function (reactions) {
-          return Object.keys(reactions).every((emoji) =>
+          return [...reactions.keys()].every((emoji) =>
             Object.values(ReactionEmoji).includes(emoji)
           );
         },

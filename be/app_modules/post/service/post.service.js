@@ -4,6 +4,7 @@ import Post from "../entity/post.model.js";
 import Joi from "joi";
 
 const postCreateValidate = Joi.object({
+  title: Joi.string().required(),
   summary: Joi.string().required(),
   content: Joi.string().required(),
   visibility: Joi.boolean().required(),
@@ -34,10 +35,11 @@ export const createPostService = async (body) => {
       throw error;
     }
 
-    const { summary, content, categories, tags, visibility } = body;
+    const { title, summary, content, categories, tags, visibility } = body;
 
     const newPost = new Post({
       _id: generateHexId("post"),
+      title,
       summary,
       content,
       categories,

@@ -1,3 +1,4 @@
+import { protectRoute } from "../../utils/middleware/protectedRoute.js";
 import {
   createPost,
   editPost,
