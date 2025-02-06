@@ -97,6 +97,21 @@ export const loginService = async (body) => {
   return { accessToken, refreshToken };
 };
 
+export const logoutService = async (req) => {
+  const { refreshToken } = req.cookies;
+  if (!refreshToken) {
+    return "Not logged in";
+  }
+
+  const token = Token.findOne({ refreshToken: refreshToken });
+  if (!token) {
+    throw new Error("Token not found");
+  }
+
+  await token.deleteOne();
+  return "Logged out";
+};
+
 export const refreshAccessTokenService = async (req) => {
   const { refreshToken } = req.cookies;
 

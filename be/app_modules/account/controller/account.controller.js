@@ -1,5 +1,6 @@
 import {
   loginService,
+  logoutService,
   refreshAccessTokenService,
   signupService,
 } from "../service/account.service.js";
@@ -33,10 +34,8 @@ export const login = async (req, res) => {
 
 export const logout = async (req, res) => {
   try {
-    return res
-      .clearCookie("refreshToken")
-      .status(200)
-      .json({ message: "Logged Out!" });
+    const logout = await logoutService(req);
+    res.clearCookie("refreshToken").status(200).json({ message: logout });
   } catch (error) {
     console.error("Error in logout controller", error.message);
     return res.status(500).json({ error: "Internal Server Error!" });
