@@ -28,11 +28,6 @@ export const signupService = async (body) => {
     throw new Error("Email already taken");
   }
 
-  const userExist = await Account.findOne({ username });
-  if (userExist) {
-    throw new Error("Username already taken");
-  }
-
   const hashedPassword = await hashPassword(password);
 
   const newAccount = new Account({

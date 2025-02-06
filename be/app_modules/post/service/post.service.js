@@ -13,19 +13,19 @@ const postCreateValidate = Joi.object({
 }).unknown(false);
 
 const postEditValidate = Joi.object({
+  title: Joi.string().optional(),
   summary: Joi.string().optional(),
   content: Joi.string().optional(),
   visibility: Joi.boolean().optional(),
   likes: Joi.number().optional().min(0),
   categories: Joi.array().items(Joi.string()).optional(),
   tags: Joi.array().items(Joi.string()).optional(),
-
   reactions: Joi.object()
     .pattern(
       Joi.string().valid(...Object.values(ReactionEmoji)), // Emoji keys must be valid
       Joi.number().min(0) // Values must be numbers >= 0
     )
-    .default({}), // Default to an empty object
+    .optional(),
 });
 
 export const createPostService = async (body) => {
@@ -55,13 +55,14 @@ export const createPostService = async (body) => {
   }
 };
 
-export const editPostService = async (body) => {
+export const editPostService = async (id, body) => {
   try {
     const { error } = postEditValidate.validate(body);
     if (error) {
       throw error;
     }
     const post = await Post.findById(id);
+    console.log(post);
 
     if (!post) {
       throw new Error("Post not found");
@@ -80,6 +81,7 @@ export const editPostService = async (body) => {
         post[key] = body[key]; // Directly overwrite other fields
       }
     }
+    await post.save();
 
     return post;
   } catch (error) {

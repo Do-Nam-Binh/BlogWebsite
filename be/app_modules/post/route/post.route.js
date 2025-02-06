@@ -19,7 +19,7 @@ const router = express.Router();
 router.get("/all", getAllPost);
 router.get("/get/:id", getPostById);
 router.post("/create", createPost);
-router.post("/edit/:id", editPost);
+router.put("/edit/:id", editPost);
 router.delete("/delete/:id", deletePost);
 router.post("/hide/:id", hidePost);
 router.post("/publish/:id", publishPost);

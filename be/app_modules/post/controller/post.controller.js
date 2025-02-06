@@ -2,6 +2,7 @@ import {
   addReactionService,
   createPostService,
   deletePostService,
+  editPostService,
   getAllPostService,
   getPostByIdService,
   hidePostService,
@@ -21,7 +22,8 @@ export const createPost = async (req, res) => {
 
 export const editPost = async (req, res) => {
   try {
-    const editedPost = await createPostService(req.body);
+    console.log(req.params.id);
+    const editedPost = await editPostService(req.params.id, req.body);
     res.status(200).json({ message: "Post edited", post: editedPost });
   } catch (error) {
     res.status(400).json({ error: error.message });
