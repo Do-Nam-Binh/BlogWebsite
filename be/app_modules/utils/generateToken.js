@@ -7,13 +7,13 @@ export const generateToken = (account, secret, expiration) => {
   if (!expiration) {
     throw new Error("Expiration is not defined in the environment variables");
   }
-  if (!account || !account._id || !account.email || !account.username) {
+  if (!account || !account.id || !account.email || !account.username) {
     throw new Error("Invalid account data for token generation.");
   }
 
   const token = jwt.sign(
     {
-      accountid: account.id,
+      id: account.id,
       email: account.email,
       username: account.username,
     },
