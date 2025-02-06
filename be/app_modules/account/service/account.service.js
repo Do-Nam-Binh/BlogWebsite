@@ -4,6 +4,8 @@ import { generateHexId } from "../../utils/setId.js";
 import { generateToken } from "../../utils/generateToken.js";
 import dotenv from "dotenv";
 import Joi from "joi";
+import Token from "../entity/token.model.js";
+import jwt from "jsonwebtoken";
 
 dotenv.config();
 
@@ -76,52 +78,48 @@ export const loginService = async (body) => {
     process.env.REFRESH_TOKEN_EXPIRATION
   );
 
-  return { accessToken, refreshToken };
-};
+  const token = await Token.findOne({ email: user.email });
 
-export const googleLoginService = async (body) => {
-  const { googleId, email, username, profileImg } = body;
-
-  let user = await Account.findOne({ googleId });
-
-  if (!user) {
-    user = new Account({
-      _id: googleId,
-      googleId,
-      email,
-      username,
-      profileImg: profileImg || null,
+  if (token) {
+    token.refreshToken = refreshToken;
+    await token.save();
+  } else {
+    const newToken = new Token({
+      _id: generateHexId("token"),
+      userId: user._id,
+      email: user.email,
+      refreshToken: refreshToken,
     });
 
-    await user.save();
+    await newToken.save();
   }
-
-  const accessToken = generateToken(
-    user,
-    process.env.ACCESS_TOKEN_SECRET,
-    process.env.ACCESS_TOKEN_EXPIRATION
-  );
-
-  const refreshToken = generateToken(
-    user,
-    process.env.REFRESH_TOKEN_SECRET,
-    process.env.REFRESH_TOKEN_EXPIRATION
-  );
 
   return { accessToken, refreshToken };
 };
 
-export const refreshAccessTokenService = async (res, req) => {
+export const refreshAccessTokenService = async (req) => {
   const { refreshToken } = req.cookies;
 
   if (!refreshToken) {
-    return res.status(401).json({ error: "Unauthorized" });
+    throw new Error("Unauthorized");
   }
 
-  jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, decoded) => {
-    if (err) {
-      return res.status(403).json({ error: "Forbidden" });
-    }
+  const token = Token.findOne({ refreshToken: refreshToken });
+  if (!token) {
+    throw new Error("Token not found");
+  }
+
+  try {
+    const decoded = await new Promise((resolve, reject) => {
+      jwt.verify(
+        refreshToken,
+        process.env.REFRESH_TOKEN_SECRET,
+        (err, decoded) => {
+          if (err) reject(new Error("Forbidden"));
+          resolve(decoded);
+        }
+      );
+    });
 
     const accessToken = generateToken(
       decoded,
@@ -129,6 +127,8 @@ export const refreshAccessTokenService = async (res, req) => {
       process.env.ACCESS_TOKEN_EXPIRATION
     );
 
-    return res.status(200).json({ accessToken });
-  });
+    return accessToken;
+  } catch (error) {
+    throw error;
+  }
 };
