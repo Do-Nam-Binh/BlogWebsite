@@ -1,22 +1,26 @@
 import { useState } from "react";
-import API from "../../http-call/apiCall";
 import { useNavigate } from "react-router-dom";
+import API from "../../http-call/apiCall";
+import { PostState } from "../../types/Post";
 
-export const LoginApi = () => {
-  const [identifier, setIdentifier] = useState("");
-  const [password, setPassword] = useState("");
+export const PostBlogApi = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
-
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (
+    e: React.FormEvent,
+    post: PostState,
+    visibility: boolean
+  ) => {
     e.preventDefault();
     setError("");
 
     try {
       const response = await API.post(
-        "/api/account/login",
-        { identifier, password },
-        { withCredentials: true }
+        "/api/post/create",
+        { ...post, visibility: visibility },
+        {
+          withCredentials: true,
+        }
       );
 
       if (response.status === 200) {
@@ -24,15 +28,11 @@ export const LoginApi = () => {
       }
     } catch (error) {
       console.error("Unexpected error:", error);
-      setError("Login failed");
+      setError("Post creation failed");
     }
   };
 
   return {
-    identifier,
-    setIdentifier,
-    password,
-    setPassword,
     error,
     handleSubmit,
   };

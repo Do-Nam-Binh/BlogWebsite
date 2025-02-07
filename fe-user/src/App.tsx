@@ -6,7 +6,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import NavBar from "./pages/navbar/NavBar";
 import Login from "./pages/login/Login";
 import Signup from "./pages/signup/Signup";
-import CreateBlogPost from "./pages/createBlogPost/createBlogPost";
+import CreateBlogPost from "./pages/createBlogPost/CreateBlogPost";
 
 function App() {
   const [posts] = useState<Post[]>([
