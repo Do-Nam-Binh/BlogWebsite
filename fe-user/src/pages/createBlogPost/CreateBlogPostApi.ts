@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import API from "../../http-call/apiCall";
 import { PostState } from "../../types/Post";
 
-export const PostBlogApi = () => {
+export const usePostApi = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const handleSubmit = async (

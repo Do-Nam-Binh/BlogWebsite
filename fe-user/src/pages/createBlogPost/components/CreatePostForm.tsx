@@ -1,31 +1,40 @@
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import DOMPurify from "dompurify";
-import { PostAction, PostState } from "../../../types/Post";
-import { useState } from "react";
+import { useCreatePost } from "../hooks/useCreatePost";
 
-const availableCategories = [
-  "Technology",
-  "Health",
-  "Education",
-  "Business",
-  "Science",
-];
+interface CreatePostFormProps {
+  post: ReturnType<typeof useCreatePost>["post"];
+  handleTitleChange: (value: string) => void;
+  handleSummaryChange: (value: string) => void;
+  handleContentChange: (value: string) => void;
+  handleAddCategory: (value: string) => void;
+  handleRemoveCategory: (value: string) => void;
+  handleAddTag: (value: string) => void;
+  handleRemoveTag: (value: string) => void;
+  selectedCategory: string;
+  setSelectedCategory: React.Dispatch<React.SetStateAction<string>>;
+  selectedTag: string;
+  setSelectedTag: React.Dispatch<React.SetStateAction<string>>;
+  categoriesOptions: string[];
+  tagsOptions: string[];
+}
 
-type CreatePostFormProps = {
-  post: PostState;
-  dispatch: React.Dispatch<PostAction>;
-};
-
-const CreatePostForm: React.FC<CreatePostFormProps> = ({ post, dispatch }) => {
-  const [selectedCategory, setSelectedCategory] = useState("");
-  const [selectedTag, setSelectedTag] = useState("");
-
-  const handleChange = (value: string, type: PostAction["type"]) => {
-    const sanitizedValue = DOMPurify.sanitize(value); // Prevent XSS
-    dispatch({ type: type, value: sanitizedValue });
-  };
-
+const CreatePostForm: React.FC<CreatePostFormProps> = ({
+  post,
+  handleTitleChange,
+  handleSummaryChange,
+  handleContentChange,
+  handleAddCategory,
+  handleRemoveCategory,
+  handleAddTag,
+  handleRemoveTag,
+  selectedCategory,
+  setSelectedCategory,
+  selectedTag,
+  setSelectedTag,
+  categoriesOptions,
+  tagsOptions,
+}) => {
   return (
     <>
       <form className="flex flex-col gap-5">
@@ -36,7 +45,7 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ post, dispatch }) => {
             className="border-1 border-slate-400 rounded-sm py-2 px-4 text-[13px] border-inherit focus:outline-none"
             value={post.title}
             onChange={(e) => {
-              handleChange(e.target.value, "TITLE");
+              handleTitleChange(e.target.value);
             }}
           />
         </div>
@@ -46,7 +55,7 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ post, dispatch }) => {
             className="border-1 border-slate-400 rounded-sm py-2 px-4 text-[13px] border-inherit focus:outline-none max-h-50 min-h-50 resize-none"
             value={post.summary}
             onChange={(e) => {
-              handleChange(e.target.value, "SUMMARY");
+              handleSummaryChange(e.target.value);
             }}
           />
         </div>
@@ -59,7 +68,7 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ post, dispatch }) => {
               className="border-1 border-slate-400 px-2 py-1 text-[13px] rounded-sm"
             >
               <option value="">Select a category</option>
-              {availableCategories.map((category) => (
+              {categoriesOptions.map((category) => (
                 <option key={category} value={category}>
                   {category}
                 </option>
@@ -67,7 +76,7 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ post, dispatch }) => {
             </select>
             <button
               type="button"
-              onClick={() => handleChange(selectedCategory, "ADD_CATEGORY")}
+              onClick={() => handleAddCategory(selectedCategory)}
               className="rounded-full border-1 border-slate-400 px-2 hover:border-slate-600 text-[13px]"
             >
               +
@@ -83,7 +92,7 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ post, dispatch }) => {
                 {category}
                 <button
                   type="button"
-                  onClick={() => handleChange(category, "REMOVE_CATEGORY")}
+                  onClick={() => handleRemoveCategory(category)}
                   className="ml-2 text-red-500 hover:text-red-700"
                 >
                   ×
@@ -102,7 +111,7 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ post, dispatch }) => {
               className="border-1 border-slate-400 px-2 py-1 text-[13px] rounded-sm"
             >
               <option value="">Select a tag</option>
-              {availableCategories.map((tag) => (
+              {tagsOptions.map((tag) => (
                 <option key={tag} value={tag}>
                   {tag}
                 </option>
@@ -110,7 +119,7 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ post, dispatch }) => {
             </select>
             <button
               type="button"
-              onClick={() => handleChange(selectedTag, "ADD_TAG")}
+              onClick={() => handleAddTag(selectedTag)}
               className="rounded-full border-1 border-slate-400 px-2 hover:border-slate-600 text-[13px]"
             >
               +
@@ -126,7 +135,7 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ post, dispatch }) => {
                 {tag}
                 <button
                   type="button"
-                  onClick={() => handleChange(tag, "REMOVE_TAG")}
+                  onClick={() => handleRemoveTag(tag)}
                   className="ml-2 text-red-500 hover:text-red-700"
                 >
                   ×
@@ -143,7 +152,7 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ post, dispatch }) => {
             theme="snow"
             value={post.content}
             onChange={(value) => {
-              handleChange(value, "CONTENT");
+              handleContentChange(value);
             }}
             modules={{
               toolbar: [
