@@ -3,6 +3,7 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import accountRoutes from "./app_modules/account/route/account.route.js";
 import postRoutes from "./app_modules/post/route/post.route.js";
+import commentRoute from "./app_modules/comment/route/comment.route.js";
 import dotenv from "dotenv";
 
 const allowedOrigins = ["http://localhost:5173"];
@@ -27,5 +28,6 @@ app.use(cookieParser());
 
 app.use("/api/account", accountRoutes);
 app.use("/api/post", postRoutes);
+app.use("/api/comment", commentRoute);
 
 export default app;

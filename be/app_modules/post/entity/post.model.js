@@ -1,12 +1,11 @@
 import mongoose from "mongoose";
-import { generateHexId } from "../../utils/setId.js";
 import ReactionEmoji from "../../utils/types/enums/reactions.js";
 
 const postSchema = mongoose.Schema(
   {
     _id: {
       type: String,
-      default: generateHexId("post"), // Auto-generate a unique string ID
+      required: true, // Auto-generate a unique string ID
     },
 
     title: {

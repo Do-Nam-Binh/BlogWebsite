@@ -1,11 +1,10 @@
 import mongoose from "mongoose";
-import { generateHexId } from "../../utils/setId";
 
 const commentSchema = mongoose.Schema(
   {
     _id: {
       type: String,
-      default: generateHexId("comment"), // Auto-generate a unique string ID
+      required: true, // Auto-generate a unique string ID
     },
 
     postId: {
@@ -27,6 +26,18 @@ const commentSchema = mongoose.Schema(
     content: {
       type: String,
       required: true,
+    },
+
+    edited: {
+      type: Boolean,
+      default: false,
+      required: false,
+    },
+
+    deleted: {
+      type: Boolean,
+      default: false,
+      required: false,
     },
   },
   {
