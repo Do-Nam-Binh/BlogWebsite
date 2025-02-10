@@ -7,6 +7,7 @@ import NavBar from "./pages/navbar/NavBar";
 import Login from "./pages/login/Login";
 import Signup from "./pages/signup/Signup";
 import CreateBlogPost from "./pages/createBlogPost/CreateBlogPost";
+import BlogDetail from "./pages/blogDetail/BlogDetail";
 
 function App() {
   const [posts] = useState<Post[]>([
@@ -88,6 +89,19 @@ function App() {
           <Route path="login" element={<Login />} />
           <Route path="signup" element={<Signup />} />
           <Route path="blog/create" element={<CreateBlogPost />} />
+          <Route
+            path="blog/detail"
+            element={
+              <BlogDetail
+                date={new Date()}
+                title="Test 1"
+                summary="Test summary"
+                content="<p><strong>Bold</strong>, <em>italic</em>, <u>underlined</u>, and <span style='color: red;'>red</span> text.</p>"
+                categories={["test1", "test2"]}
+                tags={["testtag1"]}
+              />
+            }
+          />
         </Route>
       </Routes>
     </BrowserRouter>
