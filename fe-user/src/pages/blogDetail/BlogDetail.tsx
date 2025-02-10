@@ -1,5 +1,5 @@
 import DOMPurify from "dompurify";
-import { ThumbsUp, Smile, MessageCircle } from "lucide-react";
+import SideBar from "./components/SideBar";
 
 interface BlogPostContent {
   date: Date;
@@ -21,22 +21,11 @@ const BlogDetail: React.FC<BlogPostContent> = ({
   const sanitizedContent = DOMPurify.sanitize(content);
   return (
     <>
-      <div className="flex justify-center my-20">
-        <div className="grid grid-cols-[30px_2fr_1fr] justify-between mx-20 max-w-300 h-full relative min-h-[1500px]">
-          <ul className="sticky top-10 flex flex-col gap-5 pt-6">
-            <li>
-              <ThumbsUp className="w-5 h-5 text-blue-500" />
-            </li>
-            <li>
-              <Smile className="w-5 h-5 text-yellow-500" />
-            </li>
-            <li>
-              <MessageCircle className="w-5 h-5 text-gray-500" />
-            </li>
-          </ul>
-
-          <div className="flex flex-col items-start w-full min-w-200 border-1 border-slate-400 rounded-sm p-15 justify-between">
-            <div>
+      <div className="flex justify-center my-10 relative">
+        <SideBar classnames={"self-start"} />
+        <div className="grid grid-cols-[2.5fr_1fr] mr-20 ml-5 max-w-300 h-full gap-10">
+          <div className="flex flex-col items-start w-full min-w-200 border-1 border-slate-400 rounded-sm p-15 pt-8 justify-start">
+            <div className="mb-15">
               <header className="text-[3.5rem] font-semibold">{title}</header>
               <div className="text-[1rem]">
                 {"Posted on "}
@@ -57,16 +46,18 @@ const BlogDetail: React.FC<BlogPostContent> = ({
                 })}
               </div>
             </div>
-            <div className="text-[1rem]">{summary}</div>
+            <div className="text-[1rem] mb-8">{summary}</div>
             <div dangerouslySetInnerHTML={{ __html: sanitizedContent }} />
           </div>
 
-          <div className="flex flex-col my-20 w-full">
-            <div>rec 1</div>
-            <div>rec 2</div>
-            <div>rec 3</div>
-            <div>rec 4</div>
-            <div>rec 5</div>
+          <div className="flex flex-col w-full h-full border-1 border-slate-400 rounded-sm p-8 px-5">
+            <div className="text-[1.5rem] border-b-1">Read next</div>
+
+            <div className="flex flex-col gap-5 mt-8">
+              <div>Rec 1</div>
+              <div>Rec 2</div>
+              <div>Rec 3</div>
+            </div>
           </div>
         </div>
       </div>

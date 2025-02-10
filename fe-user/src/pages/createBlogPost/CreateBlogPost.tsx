@@ -8,7 +8,7 @@ const CreateBlogPost: React.FC = () => {
   const postState = useCreatePost();
 
   return (
-    <div className="flex flex-col items-center my-20 h-full">
+    <div className="flex flex-col items-center my-10 h-full">
       <div className="w-fit flex flex-col">
         <div className="flex gap-5 self-end mb-3">
           <button
