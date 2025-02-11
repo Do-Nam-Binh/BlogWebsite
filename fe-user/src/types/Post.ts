@@ -1,3 +1,5 @@
+import { Emoji } from "./Emoji";
+
 export interface Post {
   _id: string;
   title: string;
@@ -7,8 +9,9 @@ export interface Post {
   tags: Array<string>;
   visibility: boolean;
   likes: number;
-  reactions: Map<string, number>;
-  postedDate: Date;
+  reactions: Map<Emoji, number>;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export type PostState = {

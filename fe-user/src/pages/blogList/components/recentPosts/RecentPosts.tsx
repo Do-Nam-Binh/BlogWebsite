@@ -22,7 +22,7 @@ const RecentPosts = ({ postList }: { postList: Array<Post> }) => {
           >
             {index === 0 ? (
               <BlogCardVertical
-                date={post.postedDate}
+                createdAt={new Date(post.createdAt)}
                 title={post.title}
                 summary={post.summary}
                 categories={post.categories}
@@ -30,7 +30,7 @@ const RecentPosts = ({ postList }: { postList: Array<Post> }) => {
               />
             ) : (
               <BlogCardHorizontal
-                date={post.postedDate}
+                createdAt={new Date(post.createdAt)}
                 title={post.title}
                 summary={post.summary}
                 categories={post.categories}

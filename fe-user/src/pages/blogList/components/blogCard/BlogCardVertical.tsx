@@ -1,5 +1,5 @@
 interface BlogCardProps {
-  date: Date;
+  createdAt: Date;
   title: string;
   summary: string;
   categories: string[];
@@ -7,7 +7,7 @@ interface BlogCardProps {
 }
 
 const BlogCardVertical: React.FC<BlogCardProps> = ({
-  date,
+  createdAt,
   title,
   summary,
   categories,
@@ -23,7 +23,7 @@ const BlogCardVertical: React.FC<BlogCardProps> = ({
             className="w-full h-full object-cover rounded-lg mb-4"
           />
         </div>
-        <div className="text-gray-500 text-sm">{date.toUTCString()}</div>
+        <div className="text-gray-500 text-sm">{createdAt.toUTCString()}</div>
         <div className="flex items-center justify-between mb-2">
           <p className="block font-sans text-lg antialiased font-semibold leading-relaxed text-blue-gray-900">
             {title}
