@@ -1,4 +1,7 @@
+import { useNavigate } from "react-router-dom";
+
 interface BlogCardProps {
+  id: string;
   createdAt: Date;
   title: string;
   summary: string;
@@ -7,12 +10,18 @@ interface BlogCardProps {
 }
 
 const BlogCardHorizontal: React.FC<BlogCardProps> = ({
+  id,
   createdAt,
   title,
   summary,
   categories,
   tags,
 }) => {
+  const navigate = useNavigate();
+
+  const handleViewDetail = (id: string) => {
+    navigate(`/blog/detail/${id}`);
+  };
   return (
     <div className="flex justify-center items-center h-full flex-col">
       <div className="relative flex text-gray-700 bg-white bg-clip-border rounded-xl w-120 w-full h-full gap-10">
@@ -32,6 +41,7 @@ const BlogCardHorizontal: React.FC<BlogCardProps> = ({
             <button
               className="select-none transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none rounded-lg shadow-gray-900/10 hover:shadow-gray-900/20 focus:opacity-[0.85] active:opacity-[0.85] active:shadow-none block bg-blue-gray-900/10 text-blue-gray-900 shadow-none hover:scale-115 hover:shadow-none focus:scale-105 focus:shadow-none active:scale-100"
               type="button"
+              onClick={() => handleViewDetail(id)}
             >
               <img
                 src="/right-up.png"

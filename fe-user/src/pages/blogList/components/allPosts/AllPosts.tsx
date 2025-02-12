@@ -11,6 +11,7 @@ const AllPosts = ({ postList }: { postList: Array<Post> }) => {
         {postList.map((post) => (
           <div key={post._id}>
             <BlogCardVertical
+              id={post._id}
               createdAt={new Date(post.createdAt)}
               title={post.title}
               summary={post.summary}

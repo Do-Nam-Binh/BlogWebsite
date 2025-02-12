@@ -1,24 +1,22 @@
 import DOMPurify from "dompurify";
 import SideBar from "./components/SideBar";
 import Comment from "../comments/Comment";
+import { useParams } from "react-router-dom";
+import { RootState } from "../../state/store";
+import { useSelector } from "react-redux";
 
-interface BlogPostContent {
-  date: Date;
-  title: string;
-  summary: string;
-  content: string;
-  categories: string[];
-  tags: string[];
-}
+const BlogDetail = () => {
+  const { id } = useParams();
+  const { posts } = useSelector((state: RootState) => state.post); // Assuming posts are in Redux store
 
-const BlogDetail: React.FC<BlogPostContent> = ({
-  date,
-  title,
-  summary,
-  content,
-  categories,
-  tags,
-}) => {
+  const post = posts.find((post) => post._id === id); // Find the post by ID
+
+  if (!post) {
+    return <p>Post not found</p>;
+  }
+
+  const { createdAt, title, summary, content, categories, tags } = post;
+
   const sanitizedContent = DOMPurify.sanitize(content);
   return (
     <>
@@ -31,11 +29,11 @@ const BlogDetail: React.FC<BlogPostContent> = ({
                 <header className="text-[3.5rem] font-semibold">{title}</header>
                 <div className="text-[1rem]">
                   {"Posted on "}
-                  {date.toLocaleString("en-US", {
+                  {new Date(createdAt).toLocaleString("en-US", {
                     month: "short",
                     timeZone: "UTC",
                   })}{" "}
-                  {date.getUTCDate()}
+                  {new Date(createdAt).getUTCDate()}
                 </div>
                 <div className="flex gap-3 text-[0.8rem]">
                   {categories.map((category) => {
