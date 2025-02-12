@@ -91,7 +91,7 @@ export const restoreCommentService = async (id) => {
 
 export const getCommentsFromPostService = async (postId) => {
   try {
-    const comments = await Comment.findMany({ postId: postId });
+    const comments = await Comment.find({ postId: postId });
     return comments;
   } catch (error) {
     throw error;
