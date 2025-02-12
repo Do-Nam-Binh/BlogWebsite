@@ -6,7 +6,10 @@ import postRoutes from "./app_modules/post/route/post.route.js";
 import commentRoute from "./app_modules/comment/route/comment.route.js";
 import dotenv from "dotenv";
 
-const allowedOrigins = ["http://localhost:5173"];
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://blog-website-six-pink.vercel.app",
+];
 dotenv.config();
 
 const app = express();
