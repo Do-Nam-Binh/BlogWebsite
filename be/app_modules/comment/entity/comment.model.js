@@ -14,6 +14,7 @@ const commentSchema = mongoose.Schema(
 
     userId: {
       type: String,
+      ref: "Account",
       required: true,
     },
 

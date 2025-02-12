@@ -91,7 +91,9 @@ export const restoreCommentService = async (id) => {
 
 export const getCommentsFromPostService = async (postId) => {
   try {
-    const comments = await Comment.find({ postId: postId });
+    const comments = await Comment.find({ postId: postId })
+      .populate("userId", "username")
+      .exec();
     return comments;
   } catch (error) {
     throw error;

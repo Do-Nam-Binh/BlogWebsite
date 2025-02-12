@@ -36,13 +36,13 @@ const BlogDetail = () => {
                   {new Date(createdAt).getUTCDate()}
                 </div>
                 <div className="flex gap-3 text-[0.8rem]">
-                  {categories.map((category) => {
-                    return <div>@{category}</div>;
+                  {categories.map((category, index) => {
+                    return <div key={`c-${index}`}>@{category}</div>;
                   })}
                 </div>
                 <div className="flex gap-3 text-[0.8rem]">
-                  {tags.map((tag) => {
-                    return <div>#{tag}</div>;
+                  {tags.map((tag, index) => {
+                    return <div key={`t-${index}`}>#{tag}</div>;
                   })}
                 </div>
               </div>
@@ -52,7 +52,7 @@ const BlogDetail = () => {
 
             <div className="border-b-1 my-10  border-slate-300"></div>
 
-            <Comment />
+            <Comment postId={id || ""} />
           </div>
 
           <div className="flex flex-col w-full h-full border-1 border-slate-400 rounded-sm p-8 px-5">
