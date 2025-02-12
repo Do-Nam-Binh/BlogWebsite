@@ -8,7 +8,7 @@ import dotenv from "dotenv";
 
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://blog-website-six-pink.vercel.app",
+  "https://binh-blog.vercel.app/",
 ];
 dotenv.config();
 
