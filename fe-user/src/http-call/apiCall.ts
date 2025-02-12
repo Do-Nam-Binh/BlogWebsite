@@ -1,8 +1,6 @@
 import axios, { InternalAxiosRequestConfig } from "axios";
 
-// const backendUrl = import.meta.env.VITE_API_BASE_URL; Production
-
-const backendUrl = "http://localhost:8080"; // Dev
+const backendUrl = import.meta.env.VITE_API_BASE_URL;
 
 const API = axios.create({
   baseURL: backendUrl,
