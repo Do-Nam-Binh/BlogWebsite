@@ -17,7 +17,7 @@ export const signup = async (req, res) => {
 
 export const login = async (req, res) => {
   try {
-    const { accessToken, refreshToken } = await loginService(req.body);
+    const { accessToken, refreshToken, user } = await loginService(req.body);
 
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
@@ -25,7 +25,10 @@ export const login = async (req, res) => {
       sameSite: "Strict",
     });
 
-    res.status(200).json({ accessToken });
+    res.status(200).json({
+      user,
+      accessToken,
+    });
   } catch (error) {
     console.error("Error in login controller", error.message);
     return res.status(500).json({ error: "Internal Server Error!" });
@@ -52,3 +55,5 @@ export const refreshAccessToken = async (req, res) => {
     return res.status(500).json({ error: "Internal Server Error!" });
   }
 };
+
+export const getMe = async () => {};

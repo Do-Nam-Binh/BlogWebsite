@@ -89,7 +89,11 @@ export const loginService = async (body) => {
     await newToken.save();
   }
 
-  return { accessToken, refreshToken };
+  return {
+    accessToken,
+    refreshToken,
+    user: { username: user.username, profileImg: user.profileImg },
+  };
 };
 
 export const logoutService = async (req) => {
