@@ -31,6 +31,7 @@ const authSlice = createSlice({
       state.isAuthenticated = false;
     },
     refreshAccessToken: (state, action: PayloadAction<string>) => {
+      console.log("Refreshing access token:", action.payload);
       state.accessToken = action.payload;
     },
   },
