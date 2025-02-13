@@ -92,7 +92,11 @@ export const loginService = async (body) => {
   return {
     accessToken,
     refreshToken,
-    user: { username: user.username, profileImg: user.profileImg },
+    user: {
+      userId: user._id,
+      username: user.username,
+      profileImg: user.profileImg,
+    },
   };
 };
 
@@ -114,11 +118,13 @@ export const logoutService = async (req) => {
 export const refreshAccessTokenService = async (req) => {
   const { refreshToken } = req.cookies;
 
+  console.log("Incoming Cookies:", req.cookies);
+
   if (!refreshToken) {
     throw new Error("Unauthorized");
   }
 
-  const token = Token.findOne({ refreshToken: refreshToken });
+  const token = await Token.findOne({ refreshToken: refreshToken });
   if (!token) {
     throw new Error("Token not found");
   }
@@ -141,8 +147,10 @@ export const refreshAccessTokenService = async (req) => {
       process.env.ACCESS_TOKEN_EXPIRATION
     );
 
+    console.log("New Access Token:", accessToken);
     return accessToken;
   } catch (error) {
-    throw error;
+    console.error("Token verification failed:", error.message);
+    throw new Error("Forbidden"); // Return 403 instead of crashing
   }
 };

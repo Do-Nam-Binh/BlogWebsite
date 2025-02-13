@@ -29,10 +29,11 @@ API.interceptors.request.use(
 
 // Handle expired access token and refresh it
 API.interceptors.response.use(
-  (response) => response,
+  (response) => response, // Pass through successful responses
   async (error) => {
     const originalRequest = error.config;
 
+    // Check if the error is 401 (Unauthorized), meaning the access token is likely expired
     if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true; // Prevent infinite retry loops
 
@@ -43,19 +44,20 @@ API.interceptors.response.use(
           { withCredentials: true }
         );
 
-        // Update Redux with new access token
+        // Dispatch to Redux store with the new access token
         store.dispatch(refreshAccessToken(data.accessToken));
 
-        // Retry original request with new access token
+        // Retry the original request with the new access token
         originalRequest.headers["Authorization"] = `Bearer ${data.accessToken}`;
         return API(originalRequest);
       } catch (error) {
-        console.error(error);
-        store.dispatch(logout());
+        console.error("Error refreshing access token:", error);
+        store.dispatch(logout()); // Log the user out if the refresh fails
+        return Promise.reject(error);
       }
     }
 
-    return Promise.reject(error);
+    return Promise.reject(error); // Propagate other errors
   }
 );
 
