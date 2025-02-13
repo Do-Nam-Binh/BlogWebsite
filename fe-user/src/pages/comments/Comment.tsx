@@ -3,6 +3,7 @@ import { RootState, useAppDispatch } from "../../state/store";
 import CommentCard from "./components/CommentCard";
 import { useEffect } from "react";
 import { fetchCommentOfPost } from "../../state/comment/commentSlice";
+import CreateComment from "./components/CreateComment";
 
 const Comment = ({ postId }: { postId: string }) => {
   const dispatch = useAppDispatch();
@@ -19,6 +20,7 @@ const Comment = ({ postId }: { postId: string }) => {
   const comments = commentsByPost[postId] || [];
   return (
     <>
+      <CreateComment postIdInput={postId} replyIdInput="" />
       <div className="text-[1.75rem] font-semibold mb-5">Top comments</div>
 
       {comments.length > 0 ? (

@@ -7,7 +7,7 @@ const commentPostValidate = Joi.object({
   postId: Joi.string().required(),
   userId: Joi.string().required(),
   content: Joi.string().required(),
-  replyId: Joi.string().optional(),
+  replyId: Joi.string().allow("").optional(),
 }).unknown(false);
 
 export const commentPostService = async (body) => {

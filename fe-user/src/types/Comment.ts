@@ -11,6 +11,13 @@ export interface Comment {
   deleted: boolean;
 }
 
+export type CommentState = {
+  postId: string;
+  userId: string;
+  replyId: string;
+  content: string;
+};
+
 export interface PostComment {
   postId: string;
   comments: Comment[];

@@ -21,7 +21,7 @@ const commentSchema = mongoose.Schema(
     replyId: {
       type: String,
       required: false,
-      default: null,
+      default: "",
     },
 
     content: {
