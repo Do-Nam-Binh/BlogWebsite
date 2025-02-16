@@ -44,8 +44,7 @@ const CreateComment = ({
     if (user) {
       setUserId(user.userId || "");
     }
-  }, [user]);  // This will update when user is set in Redux
-  
+  }, [user]); // This will update when user is set in Redux
 
   return (
     <>

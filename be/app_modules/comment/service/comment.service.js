@@ -34,7 +34,10 @@ export const commentPostService = async (body) => {
 
     await newComment.save();
 
-    return newComment;
+    const createdComment = await Comment.findById(newComment._id)
+      .populate("userId", "username")
+      .exec();
+    return createdComment;
   } catch (error) {
     throw error;
   }
