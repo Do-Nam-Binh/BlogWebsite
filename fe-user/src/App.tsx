@@ -17,6 +17,13 @@ function App() {
     (state: RootState) => state.post
   );
 
+  const { user } = useSelector((state: RootState) => state.auth);
+
+  let isLoggedIn = false;
+  if (user) {
+    isLoggedIn = true;
+  }
+
   useEffect(() => {
     dispatch(fetchPosts());
   }, [dispatch]);
@@ -31,7 +38,7 @@ function App() {
           path="/"
           element={
             <>
-              <NavBar />
+              <NavBar isLoggedIn={isLoggedIn} />
             </>
           }
         >
