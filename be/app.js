@@ -4,11 +4,19 @@ import cors from "cors";
 import accountRoutes from "./app_modules/account/route/account.route.js";
 import postRoutes from "./app_modules/post/route/post.route.js";
 import commentRoute from "./app_modules/comment/route/comment.route.js";
+import imageRoute from "./app_modules/account/route/image.route.js";
 import dotenv from "dotenv";
+import { v2 as cloudinary } from "cloudinary";
 
 dotenv.config();
 
 const allowedOrigins = process.env.ALLOWED_ORIGINS.split(",");
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 const app = express();
 
@@ -34,5 +42,6 @@ app.use(cookieParser());
 app.use("/api/account", accountRoutes);
 app.use("/api/post", postRoutes);
 app.use("/api/comment", commentRoute);
+app.use("/api/image", imageRoute);
 
 export default app;

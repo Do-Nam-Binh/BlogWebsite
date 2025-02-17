@@ -10,6 +10,7 @@ import BlogDetail from "./pages/blogDetail/BlogDetail";
 import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "./state/store";
 import { fetchPosts } from "./state/post/postSlice";
+import ImageUpload from "./pages/profile/component/image/ImageUpload";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -47,6 +48,7 @@ function App() {
           <Route path="signup" element={<Signup />} />
           <Route path="blog/create" element={<CreateBlogPost />} />
           <Route path="blog/detail/:id" element={<BlogDetail />} />
+          <Route path="/testImage" element={<ImageUpload />} />
         </Route>
       </Routes>
     </BrowserRouter>
