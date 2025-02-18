@@ -2,22 +2,43 @@ import Post from "../../post/entity/post.model.js";
 import Comment from "../entity/comment.model.js";
 import { generateHexId } from "../../utils/setId.js";
 import Joi from "joi";
+import jwt from "jsonwebtoken";
 
 const commentPostValidate = Joi.object({
   postId: Joi.string().required(),
-  userId: Joi.string().required(),
   content: Joi.string().required(),
   replyId: Joi.string().allow("").optional(),
 }).unknown(false);
 
-export const commentPostService = async (body) => {
+export const commentPostService = async (req) => {
   try {
-    const { error } = commentPostValidate.validate(body);
+    const authHeader = req.headers["authorization"];
+
+    if (!authHeader) {
+      return res.status(401).json({ message: "Authorization header missing" });
+    }
+
+    const token = authHeader.split(" ")[1]; // "Bearer <token>" -> token
+
+    if (!token) {
+      return res.status(401).json({ message: "Token missing" });
+    }
+
+    const decoded = await new Promise((resolve, reject) => {
+      jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
+        if (err) reject(new Error("Forbidden"));
+        resolve(decoded);
+      });
+    });
+
+    console.log(decoded);
+
+    const { error } = commentPostValidate.validate(req.body);
     if (error) {
       throw error;
     }
 
-    const { postId, userId, content, replyId } = body;
+    const { postId, content, replyId } = req.body;
 
     const post = await Post.findById(postId);
     if (!post) {
@@ -27,7 +48,7 @@ export const commentPostService = async (body) => {
     const newComment = new Comment({
       _id: generateHexId("comment"),
       postId,
-      userId,
+      userId: decoded.id,
       content,
       ...(replyId && { replyId }), // Only includes replyId if it's truthy
     });

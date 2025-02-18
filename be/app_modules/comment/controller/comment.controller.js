@@ -8,7 +8,7 @@ import {
 
 export const commentPost = async (req, res) => {
   try {
-    const newComment = await commentPostService(req.body);
+    const newComment = await commentPostService(req);
     res.status(201).json(newComment);
   } catch (error) {
     res.status(400).json({ error: error.message });
