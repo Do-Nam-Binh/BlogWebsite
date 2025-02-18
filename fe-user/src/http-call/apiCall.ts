@@ -38,6 +38,7 @@ API.interceptors.response.use(
       originalRequest._retry = true; // Prevent infinite retry loops
 
       try {
+        // Request a new access token
         const { data } = await axios.post(
           `${backendUrl}/api/account/refresh-token`,
           {},
@@ -45,15 +46,14 @@ API.interceptors.response.use(
         );
 
         // Dispatch to Redux store with the new access token
-        store.dispatch(refreshAccessToken(data.accessToken));
+        store.dispatch(refreshAccessToken(data));
 
-        // Retry the original request with the new access token
-        originalRequest.headers["Authorization"] = `Bearer ${data.accessToken}`;
+        // Retry the original request with the new token
         return API(originalRequest);
-      } catch (error) {
-        console.error("Error refreshing access token:", error);
+      } catch (refreshError) {
+        console.error("Error refreshing access token:", refreshError);
         store.dispatch(logout()); // Log the user out if the refresh fails
-        return Promise.reject(error);
+        return Promise.reject(refreshError);
       }
     }
 
