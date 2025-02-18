@@ -15,7 +15,7 @@ export const useCommentApi = () => {
     try {
       const response = await API.post(
         "/api/comment/create",
-        { ...comment },
+        { ...comment},
         {
           withCredentials: true,
         }
@@ -25,6 +25,7 @@ export const useCommentApi = () => {
         addCommentToState({
           postId: response.data.postId,
           comment: response.data,
+          replyId: response.data.replyId || "",
         })
       );
 

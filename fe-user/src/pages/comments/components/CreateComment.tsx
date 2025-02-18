@@ -2,8 +2,6 @@ import { CircleUser } from "lucide-react";
 import { useCreateComment } from "../hooks/useCreateComment";
 import { useEffect } from "react";
 import { useCommentApi } from "../api-calls/useCommentApi";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../state/store";
 
 const CreateComment = ({
   postIdInput,
@@ -13,13 +11,10 @@ const CreateComment = ({
   replyIdInput?: string;
 }) => {
   const { handleCreate } = useCommentApi();
-  const { user } = useSelector((state: RootState) => state.auth);
 
   const {
     postId,
     setPostId,
-    userId,
-    setUserId,
     replyId,
     setReplyId,
     commentContent,
@@ -34,17 +29,12 @@ const CreateComment = ({
     setReplyId(replyIdInput || "");
   }, [replyIdInput]);
 
-  useEffect(() => {
-    if (user) {
-      setUserId(user.userId || "");
-    }
-  }, []);
 
-  useEffect(() => {
-    if (user) {
-      setUserId(user.userId || "");
-    }
-  }, [user]); // This will update when user is set in Redux
+  // useEffect(() => {
+  //   if (user) {
+  //     setUserId(user.userId || "");
+  //   }
+  // }, [user]); // This will update when user is set in Redux
 
   return (
     <>
@@ -55,7 +45,6 @@ const CreateComment = ({
           onSubmit={(e) => {
             handleCreate(e, {
               postId,
-              userId,
               replyId,
               content: commentContent,
             });
