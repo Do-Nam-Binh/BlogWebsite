@@ -49,8 +49,8 @@ export const logout = async (req, res) => {
 export const refreshAccessToken = async (req, res) => {
   try {
     console.log(req.cookies);
-    const accessToken = await refreshAccessTokenService(req);
-    return res.status(200).json({ accessToken: accessToken });
+    const { accessToken, user } = await refreshAccessTokenService(req);
+    return res.status(200).json({ accessToken, user: user });
   } catch (error) {
     console.error("Error in refresh token controller", error.message);
     return res.status(500).json({ error: "Internal Server Error!" });

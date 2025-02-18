@@ -147,8 +147,17 @@ export const refreshAccessTokenService = async (req) => {
       process.env.ACCESS_TOKEN_EXPIRATION
     );
 
+    const user = await Account.findOne({ email: decoded.email });
+
     console.log("New Access Token:", accessToken);
-    return accessToken;
+    return {
+      accessToken,
+      user: {
+        userId: user._id,
+        username: user.username,
+        profileImg: user.profileImg,
+      },
+    };
   } catch (error) {
     console.error("Token verification failed:", error.message);
     throw new Error("Forbidden"); // Return 403 instead of crashing
