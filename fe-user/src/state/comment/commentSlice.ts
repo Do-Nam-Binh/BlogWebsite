@@ -26,15 +26,50 @@ export const fetchCommentOfPost = createAsyncThunk(
   }
 );
 
+const nestComments = (comments: Comment[]) => {
+  const commentMap: Record<string, Comment & { children: Comment[] }> = {};
+  const nestedComments: (Comment & { children: Comment[] })[] = [];
+
+  comments.forEach((comment) => {
+    commentMap[comment._id] = { ...comment, children: [] };
+  });
+
+  comments.forEach((comment) => {
+    if (comment.replyId && commentMap[comment.replyId]) {
+      commentMap[comment.replyId].children.push(commentMap[comment._id]);
+    } else {
+      nestedComments.push(commentMap[comment._id]); // Root-level comments
+    }
+  });
+
+  return nestedComments;
+};
+
 const commentSlice = createSlice({
   name: "comments",
   initialState,
   reducers: {
     addCommentToState: (
       state,
-      action: PayloadAction<{ postId: string; comment: Comment }>
+      action: PayloadAction<{
+        postId: string;
+        comment: Comment;
+        replyId: string;
+      }>
     ) => {
-      const { postId, comment } = action.payload;
+      const { postId, comment, replyId } = action.payload;
+      if (replyId) {
+        const parentComment = state.commentsByPost[postId].find(
+          (c) => c._id === replyId
+        );
+
+        if (parentComment) {
+          if (!parentComment.children) {
+            parentComment.children = [];
+          }
+          parentComment.children.push(comment);
+        }
+      }
       if (state.commentsByPost[postId]) {
         state.commentsByPost[postId].push(comment);
       }
@@ -53,7 +88,7 @@ const commentSlice = createSlice({
           action: PayloadAction<{ postId: string; comments: Comment[] }>
         ) => {
           const { postId, comments } = action.payload;
-          state.commentsByPost[postId] = comments; // Store comments under postId key
+          state.commentsByPost[postId] = nestComments(comments); // Store nested comments
           state.loading = false;
         }
       )

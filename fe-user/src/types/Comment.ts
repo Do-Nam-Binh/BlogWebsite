@@ -9,11 +9,11 @@ export interface Comment {
   content: string;
   edited: boolean;
   deleted: boolean;
+  children?: Comment[];
 }
 
 export type CommentState = {
   postId: string;
-  userId: string;
   replyId: string;
   content: string;
 };
