@@ -31,8 +31,6 @@ export const commentPostService = async (req) => {
       });
     });
 
-    console.log(decoded);
-
     const { error } = commentPostValidate.validate(req.body);
     if (error) {
       throw error;

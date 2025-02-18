@@ -15,6 +15,10 @@ const accountValidate = Joi.object({
   password: Joi.string().required(),
 });
 
+const imgUploadValidate = Joi.object({
+  imgUrl: Joi.string().allow("").required(),
+});
+
 export const signupService = async (body) => {
   const { error } = accountValidate.validate(body);
   if (error) {
@@ -161,5 +165,50 @@ export const refreshAccessTokenService = async (req) => {
   } catch (error) {
     console.error("Token verification failed:", error.message);
     throw new Error("Forbidden"); // Return 403 instead of crashing
+  }
+};
+
+export const uploadProfileImageService = async (req) => {
+  try {
+    const authHeader = req.headers["authorization"];
+
+    if (!authHeader) {
+      return res.status(401).json({ message: "Authorization header missing" });
+    }
+
+    const token = authHeader.split(" ")[1]; // "Bearer <token>" -> token
+
+    if (!token) {
+      return res.status(401).json({ message: "Token missing" });
+    }
+
+    const decoded = await new Promise((resolve, reject) => {
+      jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
+        if (err) reject(new Error("Forbidden"));
+        resolve(decoded);
+      });
+    });
+
+    const { error } = imgUploadValidate.validate(req.body);
+
+    if (error) throw error;
+
+    const { imgUrl } = req.body;
+
+    const newUser = await Account.findByIdAndUpdate(
+      decoded.id,
+      { profileImg: imgUrl },
+      { new: true }
+    );
+
+    if (newUser) {
+      if (!newUser) {
+        throw new Error("User not found");
+      }
+    }
+
+    return newUser;
+  } catch (error) {
+    throw error;
   }
 };

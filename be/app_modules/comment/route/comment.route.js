@@ -13,7 +13,7 @@ const router = express.Router();
 
 router.get("/:postId", getCommentsFromPost);
 router.post("/create", protectRoute(["USER", "ADMIN"]), commentPost);
-router.put("/edit/:id", editComment);
-router.delete("/delete/:id", deleteComment);
-router.put("/restore/:id", restoreComment);
+router.put("/edit/:id", protectRoute(["USER", "ADMIN"]), editComment);
+router.delete("/delete/:id", protectRoute(["USER", "ADMIN"]), deleteComment);
+router.put("/restore/:id", protectRoute(["USER", "ADMIN"]), restoreComment);
 export default router;

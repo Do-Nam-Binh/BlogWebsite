@@ -3,6 +3,7 @@ import {
   logoutService,
   refreshAccessTokenService,
   signupService,
+  uploadProfileImageService,
 } from "../service/account.service.js";
 
 export const signup = async (req, res) => {
@@ -48,13 +49,20 @@ export const logout = async (req, res) => {
 
 export const refreshAccessToken = async (req, res) => {
   try {
-    console.log(req.cookies);
     const { accessToken, user } = await refreshAccessTokenService(req);
     return res.status(200).json({ accessToken, user: user });
+  } catch (error) {
+    console.error("Error in refresh token controller", error.message);
+    return res.status(500).json({ error });
+  }
+};
+
+export const uploadProfileImg = async (req, res) => {
+  try {
+    const newUser = await uploadProfileImageService(req);
+    return res.status(200).json({ user: newUser });
   } catch (error) {
     console.error("Error in refresh token controller", error.message);
     return res.status(500).json({ error: "Internal Server Error!" });
   }
 };
-
-export const getMe = async () => {};

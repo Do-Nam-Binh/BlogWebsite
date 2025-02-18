@@ -21,7 +21,13 @@ export const uploadImage = async ({ image }: { image: File }) => {
       formData
     );
 
-    return uploadRes.data.secure_url;
+    const userData = await API.post(
+      "/api/account/add-profile-img",
+      { imgUrl: uploadRes.data.secure_url },
+      { withCredentials: true }
+    );
+
+    return userData.data;
 
     // setImageUrl(uploadRes.data.secure_url);
     // alert("Image uploaded successfully!");
