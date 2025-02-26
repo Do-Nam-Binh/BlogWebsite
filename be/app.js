@@ -5,6 +5,7 @@ import accountRoutes from "./app_modules/account/route/account.route.js";
 import postRoutes from "./app_modules/post/route/post.route.js";
 import commentRoute from "./app_modules/comment/route/comment.route.js";
 import imageRoute from "./app_modules/account/route/image.route.js";
+import projectRoute from "./app_modules/project/route/project.route.js";
 import dotenv from "dotenv";
 import { v2 as cloudinary } from "cloudinary";
 
@@ -43,5 +44,6 @@ app.use("/api/account", accountRoutes);
 app.use("/api/post", postRoutes);
 app.use("/api/comment", commentRoute);
 app.use("/api/image", imageRoute);
+app.use("/api/projects", projectRoute);
 
 export default app;
