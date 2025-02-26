@@ -8,13 +8,13 @@ const About = () => {
 
         <div className="mt-2 flex space-x-4 self-center">
           <a
-            href="#"
+            href="https://github.com/Do-Nam-Binh"
             className="text-blue-600 font-semibold hover:underline hover:text-blue-800"
           >
             🔗 GitHub
           </a>
           <a
-            href="#"
+            href="https://www.linkedin.com/in/binh-do-563997242/"
             className="text-blue-600 font-semibold hover:underline hover:text-blue-800"
           >
             🔗 LinkedIn
