@@ -10,12 +10,14 @@ const About = () => {
           <a
             href="https://github.com/Do-Nam-Binh"
             className="text-blue-600 font-semibold hover:underline hover:text-blue-800"
+            target="_blank"
           >
             🔗 GitHub
           </a>
           <a
             href="https://www.linkedin.com/in/binh-do-563997242/"
             className="text-blue-600 font-semibold hover:underline hover:text-blue-800"
+            target="_blank"
           >
             🔗 LinkedIn
           </a>
