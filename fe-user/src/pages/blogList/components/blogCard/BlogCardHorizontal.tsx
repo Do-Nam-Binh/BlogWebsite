@@ -23,7 +23,11 @@ const BlogCardHorizontal: React.FC<BlogCardProps> = ({
     navigate(`/blog/detail/${id}`);
   };
   return (
-    <div className="flex justify-center items-center h-full flex-col">
+    <button
+      type="button"
+      onClick={() => handleViewDetail(id)}
+      className="flex justify-center items-center h-full w-full flex-col transition-transform duration-300 hover:scale-102 hover:shadow-xl"
+    >
       <div className="relative flex text-gray-700 bg-white bg-clip-border rounded-xl w-120 w-full h-full gap-10">
         <div className="block mborder-slate-300 w-1/2">
           <img
@@ -32,7 +36,7 @@ const BlogCardHorizontal: React.FC<BlogCardProps> = ({
             className="w-full h-full object-cover rounded-lg mb-4"
           />
         </div>
-        <div className="flex justify-center items-start h-full flex-col w-1/2 p-5">
+        <div className="flex justify-center items-start h-full flex-col w-1/2 py-4 pr-2">
           <div className="text-gray-500 text-sm">{createdAt.toUTCString()}</div>
           <div className="flex items-center justify-between mb-2 w-full">
             <p className="block font-sans text-lg antialiased font-semibold leading-relaxed text-blue-gray-900">
@@ -79,7 +83,7 @@ const BlogCardHorizontal: React.FC<BlogCardProps> = ({
           </div>
         </div>
       </div>
-    </div>
+    </button>
   );
 };
 
