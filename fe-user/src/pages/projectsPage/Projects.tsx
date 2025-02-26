@@ -42,49 +42,66 @@ const Projects = () => {
   if (error) return <p>Error: {error}</p>;
 
   return (
-    <div className="relative max-w-5xl mx-auto p-10">
-      <h1 className="text-3xl font-bold text-center mb-6">
-        Some of my projects
-      </h1>
+    <div>
+      {" "}
+      <div className="relative max-w-5xl mx-auto p-10">
+        <h1 className="text-3xl font-bold text-center mb-6">
+          Some of my projects
+        </h1>
 
-      <div className="relative flex items-center justify-center h-[800px] overflow-hidden">
-        {/* Previous Slide (Left, smaller & faded) */}
-        <div className={`absolute left-0 -translate-x-1/2 opacity-50 scale-90`}>
-          <ProjectCard
-            {...projects[
-              (currentIndex - 1 + projects.length) % projects.length
-            ]}
-          />
+        <div className="text-center">
+          See more on my{" "}
+          <a
+            href="https://github.com/Do-Nam-Binh"
+            className="text-blue-500 hover:text-blue-600"
+          >
+            GitHub
+          </a>
         </div>
 
-        {/* Current Slide (Centered) */}
-        <div
-          className={`z-10 scale-105 transition-all duration-300 ease-in-out ${
-            isAnimating ? "transform scale-110" : ""
-          }`}
+        <div className="relative flex items-center justify-center h-[800px] overflow-hidden">
+          {/* Previous Slide (Left, smaller & faded) */}
+          <div
+            className={`absolute left-0 -translate-x-1/2 opacity-50 scale-90`}
+          >
+            <ProjectCard
+              {...projects[
+                (currentIndex - 1 + projects.length) % projects.length
+              ]}
+            />
+          </div>
+
+          {/* Current Slide (Centered) */}
+          <div
+            className={`z-10 scale-105 transition-all duration-300 ease-in-out ${
+              isAnimating ? "transform scale-110" : ""
+            }`}
+          >
+            <ProjectCard {...projects[currentIndex]} />
+          </div>
+
+          {/* Next Slide (Right, smaller & faded) */}
+          <div
+            className={`absolute right-0 translate-x-1/2 opacity-50 scale-90`}
+          >
+            <ProjectCard {...projects[(currentIndex + 1) % projects.length]} />
+          </div>
+        </div>
+
+        {/* Navigation Buttons */}
+        <button
+          onClick={prevSlide}
+          className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full shadow-md hover:bg-gray-700 transition"
         >
-          <ProjectCard {...projects[currentIndex]} />
-        </div>
-
-        {/* Next Slide (Right, smaller & faded) */}
-        <div className={`absolute right-0 translate-x-1/2 opacity-50 scale-90`}>
-          <ProjectCard {...projects[(currentIndex + 1) % projects.length]} />
-        </div>
+          ◀
+        </button>
+        <button
+          onClick={nextSlide}
+          className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full shadow-md hover:bg-gray-700 transition"
+        >
+          ▶
+        </button>
       </div>
-
-      {/* Navigation Buttons */}
-      <button
-        onClick={prevSlide}
-        className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full shadow-md hover:bg-gray-700 transition"
-      >
-        ◀
-      </button>
-      <button
-        onClick={nextSlide}
-        className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full shadow-md hover:bg-gray-700 transition"
-      >
-        ▶
-      </button>
     </div>
   );
 };
