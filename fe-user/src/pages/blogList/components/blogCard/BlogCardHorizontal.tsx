@@ -42,7 +42,7 @@ const BlogCardHorizontal: React.FC<BlogCardProps> = ({
             <p className="block font-sans text-lg antialiased font-semibold leading-relaxed text-blue-gray-900">
               {title}
             </p>
-            <button
+            <a
               className="select-none transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none rounded-lg shadow-gray-900/10 hover:shadow-gray-900/20 focus:opacity-[0.85] active:opacity-[0.85] active:shadow-none block bg-blue-gray-900/10 text-blue-gray-900 shadow-none hover:scale-115 hover:shadow-none focus:scale-105 focus:shadow-none active:scale-100"
               type="button"
               onClick={() => handleViewDetail(id)}
@@ -52,7 +52,7 @@ const BlogCardHorizontal: React.FC<BlogCardProps> = ({
                 alt="read more"
                 className="w-5 opacity-80"
               />
-            </button>
+            </a>
           </div>
           <p className="block font-sans text-sm antialiased font-normal leading-normal text-gray-700 opacity-75 flex-grow">
             {summary}

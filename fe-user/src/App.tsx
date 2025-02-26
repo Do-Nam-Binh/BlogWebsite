@@ -12,12 +12,14 @@ import { RootState, useAppDispatch } from "./state/store";
 import { fetchPosts } from "./state/post/postSlice";
 import ImageUpload from "./pages/profile/components/image/ImageUpload";
 import About from "./pages/aboutPage/About";
+import Projects from "./pages/projectsPage/Projects";
 
 function App() {
   const dispatch = useAppDispatch();
   const { posts, loading, error } = useSelector(
     (state: RootState) => state.post
   );
+
 
   const { user } = useSelector((state: RootState) => state.auth);
 
@@ -48,6 +50,7 @@ function App() {
           <Route path="login" element={<Login />} />
           <Route path="signup" element={<Signup />} />
           <Route path="about" element={<About />} />
+          <Route path="projects" element={<Projects />} />
           <Route path="blog/create" element={<CreateBlogPost />} />
           <Route path="blog/detail/:id" element={<BlogDetail />} />
           <Route path="/testImage" element={<ImageUpload />} />
