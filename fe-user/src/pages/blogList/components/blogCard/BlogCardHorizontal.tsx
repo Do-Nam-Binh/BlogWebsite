@@ -32,7 +32,7 @@ const BlogCardHorizontal: React.FC<BlogCardProps> = ({
             className="w-full h-full object-cover rounded-lg mb-4"
           />
         </div>
-        <div className="flex justify-center items-start h-full flex-col w-1/2">
+        <div className="flex justify-center items-start h-full flex-col w-1/2 p-5">
           <div className="text-gray-500 text-sm">{createdAt.toUTCString()}</div>
           <div className="flex items-center justify-between mb-2 w-full">
             <p className="block font-sans text-lg antialiased font-semibold leading-relaxed text-blue-gray-900">
