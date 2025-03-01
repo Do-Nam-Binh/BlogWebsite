@@ -21,7 +21,12 @@ const BlogDetail = () => {
   return (
     <>
       <div className="flex justify-center my-10 relative">
-        <SideBar classnames={"self-start"} />
+        <SideBar
+          classnames={"self-start"}
+          postId={post._id}
+          likes={post.likes}
+          reactions={new Map(Object.entries(post.reactions))}
+        />
         <div className="grid grid-cols-[2.5fr_1fr] mr-20 ml-5 max-w-300 h-full gap-10">
           <div className="flex flex-col">
             <div className="flex flex-col items-start w-full min-w-200 border-1 border-slate-400 rounded-sm p-15 pt-8 justify-start">

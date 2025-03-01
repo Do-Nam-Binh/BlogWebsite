@@ -18,11 +18,11 @@ const router = express.Router();
 
 router.get("/all", getAllPost);
 router.get("/get/:id", getPostById);
-router.post("/create", createPost);
-router.put("/edit/:id", editPost);
-router.delete("/delete/:id", deletePost);
-router.put("/hide/:id", hidePost);
-router.put("/publish/:id", publishPost);
+router.post("/create", protectRoute(["ADMIN"]), createPost);
+router.put("/edit/:id", protectRoute(["ADMIN"]), editPost);
+router.delete("/delete/:id", protectRoute(["ADMIN"]), deletePost);
+router.put("/hide/:id", protectRoute(["ADMIN"]), hidePost);
+router.put("/publish/:id", protectRoute(["ADMIN"]), publishPost);
 router.put("/like/:id", likePost);
 router.put("/dislike/:id", dislikePost);
 router.put("/addReact/:id", addReaction);
