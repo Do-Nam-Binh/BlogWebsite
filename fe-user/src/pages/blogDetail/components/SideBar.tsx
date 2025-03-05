@@ -16,7 +16,7 @@ const SideBar: React.FC<ReactionProps> = ({
   likes,
   reactions,
 }) => {
-  const { handleLike, handleDislike } = useFeedbacksApi();
+  const { handleLike, handleDislike, handleAddReact } = useFeedbacksApi();
   const [liked, setLiked] = useState(false);
   const [displayEmojis, setDisplayEmojis] = useState(false);
   return (
@@ -48,18 +48,21 @@ const SideBar: React.FC<ReactionProps> = ({
         </button>
         {displayEmojis ? (
           <div className="absolute top-[30px] left-[0px]">
-            {Object.values(Emoji)
-              .filter((value) => typeof value === "string")
-              .map((emoji, index) => {
-                return (
-                  <div key={index} className="relative">
-                    <div className="absolute top-[16px] left-[14px] ">
-                      {reactions.get(emoji) || 0}
-                    </div>
-                    <div className="mb-3">{emoji}</div>
+            {Object.entries(Emoji).map(([key, emoji]) => {
+              return (
+                <div key={key} className="relative">
+                  <div className="absolute top-[16px] left-[14px] ">
+                    {reactions.get(emoji) || 0}
                   </div>
-                );
-              })}
+                  <button
+                    className="mb-3 hover:scale-110"
+                    onClick={() => handleAddReact(postId, key, emoji)}
+                  >
+                    {emoji}
+                  </button>
+                </div>
+              );
+            })}
           </div>
         ) : (
           ""

@@ -1,4 +1,4 @@
-import { Emoji } from "./Emoji";
+// import { Emoji } from "./Emoji";
 
 export interface Post {
   _id: string;
@@ -9,7 +9,7 @@ export interface Post {
   tags: Array<string>;
   visibility: boolean;
   likes: number;
-  reactions: Map<Emoji, number>;
+  reactions: Record<string, number>;
   createdAt: string;
   updatedAt: string;
 }

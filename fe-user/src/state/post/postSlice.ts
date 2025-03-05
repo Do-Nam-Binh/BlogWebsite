@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import API from "../../http-call/apiCall";
 import { Post } from "../../types/Post";
+// import { Emoji } from "../../types/Emoji";
 
 interface PostList {
   posts: Post[];
@@ -46,6 +47,27 @@ const postSlice = createSlice({
         post._id === postId ? { ...post, likes: post.likes - 1 } : post
       );
     },
+
+    addReaction: (
+      state,
+      action: PayloadAction<{
+        postId: string;
+        emoji: string;
+      }>
+    ) => {
+      const { postId, emoji } = action.payload;
+      state.posts = state.posts.map((post) =>
+        post._id === postId
+          ? {
+              ...post,
+              reactions: {
+                ...post.reactions,
+                [emoji]: (post.reactions?.[emoji] || 0) + 1,
+              },
+            }
+          : post
+      );
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -64,5 +86,5 @@ const postSlice = createSlice({
   },
 });
 
-export const { likePost, dislikePost } = postSlice.actions;
+export const { likePost, dislikePost, addReaction } = postSlice.actions;
 export default postSlice.reducer;
