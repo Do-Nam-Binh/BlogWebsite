@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { SignupApi } from "./SignupApi";
 
 const Signup = () => {
@@ -72,12 +73,12 @@ const Signup = () => {
 
           <div className="mt-6 text-center text-sm text-gray-600">
             Already have an account?{" "}
-            <a
-              href="/login"
+            <Link
+              to="/login"
               className="text-indigo-600 hover:text-indigo-500 font-medium"
             >
               Login
-            </a>
+            </Link>
           </div>
 
           {error && <p className="text-red-500 text-xs mt-2">{error}</p>}
