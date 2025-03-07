@@ -20,7 +20,6 @@ function App() {
     (state: RootState) => state.post
   );
 
-
   const { user } = useSelector((state: RootState) => state.auth);
 
   let isLoggedIn = false;
@@ -36,7 +35,7 @@ function App() {
   if (error) return <p>Error: {error}</p>;
 
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/">
       <Routes>
         <Route
           path="/"
