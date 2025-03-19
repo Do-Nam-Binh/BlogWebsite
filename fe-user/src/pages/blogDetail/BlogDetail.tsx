@@ -31,7 +31,7 @@ const BlogDetail = () => {
           <div className="flex flex-col">
             <div className="flex flex-col items-start w-full min-w-200 border-1 border-slate-400 rounded-sm p-15 pt-8 justify-start">
               <div className="mb-15">
-                <header className="text-[3.5rem] font-semibold">{title}</header>
+                <header className="text-[2.5rem] font-semibold">{title}</header>
                 <div className="text-[1rem]">
                   {"Posted on "}
                   {new Date(createdAt).toLocaleString("en-US", {

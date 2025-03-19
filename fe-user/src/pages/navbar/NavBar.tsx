@@ -5,10 +5,10 @@ const NavBar = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
   const { handleLogout } = LogoutApi();
   return (
     <>
-      <header className="flex border-b py-4 px-4 sm:px-10 bg-white font-sans min-h-[70px] tracking-wide z-50 sticky top-0">
+      <header className="flex border-b py-4 bg-white font-sans min-h-[70px] tracking-wide z-50 sticky top-0 lg:px-40 sm:px-5">
         <div className="flex flex-wrap items-center gap-4 w-full">
           <Link to="/">
-            <h3 className="text-2xl font-semibold">Simply Bloggin</h3>
+            <h1 className="text-2xl font-semibold">Simply Bloggin</h1>
           </Link>
 
           <div className="lg:!flex lg:flex-auto lg:ml-12 max-lg:hidden max-lg:before:fixed max-lg:before:bg-black max-lg:before:opacity-50 max-lg:before:inset-0 max-lg:before:z-50">

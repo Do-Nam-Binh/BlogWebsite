@@ -5,3 +5,8 @@
   max-height: 1200px;
   overflow: auto;
 }
+
+:root {
+  font-size: 16px;
+  text-align: left;
+}

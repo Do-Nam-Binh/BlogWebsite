@@ -5,11 +5,8 @@ import RecentPosts from "./components/recentPosts/RecentPosts";
 const BlogList = ({ postList }: { postList: Array<Post> }) => {
   return (
     <>
-      <div className="mb-30">
+      <div className="flex flex-col gap-60 mx-auto w-[75%] my-40">
         <RecentPosts postList={postList.slice(0, 4)} />
-      </div>
-
-      <div>
         <AllPosts postList={postList} />
       </div>
     </>
