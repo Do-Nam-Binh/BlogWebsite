@@ -2,10 +2,18 @@ import { Post } from "../../../../types/Post";
 import BlogCardHorizontal from "../blogCard/BlogCardHorizontal";
 import BlogCardVertical from "../blogCard/BlogCardVertical";
 
-const RecentPosts = ({ postList }: { postList: Array<Post> }) => {
+const RecentPosts = ({
+  postList,
+  format,
+}: {
+  postList: Array<Post>;
+  format: string;
+}) => {
   return (
     <>
-      <div className="grid grid-cols-1 grid-cols-2 gap-8 grid-rows-3 aspect-[10/4]">
+      <div
+        className={`grid grid-cols-1 grid-cols-2 gap-8 grid-rows-3 aspect-[10/4] ${format}`}
+      >
         {postList.map((post, index) => (
           <div
             key={post._id}
